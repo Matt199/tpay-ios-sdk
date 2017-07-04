@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bnm-Pp-NZB">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Payment View Controller-->
+        <scene sceneID="xni-5y-n88">
+            <objects>
+                <viewController storyboardIdentifier="MainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8r1-0H-55N" customClass="PaymentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyM-9Y-fRq"/>
+                        <viewControllerLayoutGuide type="bottom" id="YHj-h5-6yt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Cu6-kj-ALL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="BvR-Fh-lKh">
+                                <rect key="frame" x="16" y="84" width="343" height="331"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Kod BLIK" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0M7-38-R1T">
+                                        <rect key="frame" x="128" y="0.0" width="87" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hB5-It-dv7">
+                                        <rect key="frame" x="122" y="59" width="99" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Zapłać z BLIK"/>
+                                        <connections>
+                                            <action selector="payWithBlikAction:" destination="8r1-0H-55N" eventType="touchUpInside" id="PuS-Rm-cf0"/>
+                                        </connections>
+                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aJu-BS-2Zq">
+                                        <rect key="frame" x="0.0" y="120" width="343" height="150"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="kVj-mJ-YNt">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="3uj-bM-61L"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="Owtórz domyślny widok płatności BLIK dla zarejestrowanego użytkownika"/>
+                                                <connections>
+                                                    <action selector="openDefaultBlikViewForRegisteredUser:" destination="8r1-0H-55N" eventType="touchUpInside" id="Jym-zQ-5OX"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Ath-Pf-j2m">
+                                                <rect key="frame" x="0.0" y="50" width="343" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="umf-kr-1uw"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="Owtórz domyślny widok płatności BLIK dla niezarejestrowanego użytkownika"/>
+                                                <connections>
+                                                    <action selector="openDefaultBlikViewForUnregisteredUser:" destination="8r1-0H-55N" eventType="touchUpInside" id="HCo-4H-O7y"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8Lr-xL-Hcl">
+                                                <rect key="frame" x="0.0" y="100" width="343" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="wnD-Ck-EtJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="Owtórz domyślny widok płatności BLIK - brak One Click"/>
+                                                <connections>
+                                                    <action selector="openDefaultBlikViewWithoutOneClick:" destination="8r1-0H-55N" eventType="touchUpInside" id="x2h-yG-Vu7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6NK-WN-2Ng">
+                                        <rect key="frame" x="99.5" y="299" width="144" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Zapłać przez WWW">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="payButtonAction:" destination="8r1-0H-55N" eventType="touchUpInside" id="5ZO-PA-4S7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="BvR-Fh-lKh" secondAttribute="trailing" id="LB6-wm-STa"/>
+                            <constraint firstItem="BvR-Fh-lKh" firstAttribute="top" secondItem="jyM-9Y-fRq" secondAttribute="bottom" constant="20" id="chW-N5-RwL"/>
+                            <constraint firstItem="BvR-Fh-lKh" firstAttribute="leading" secondItem="Cu6-kj-ALL" secondAttribute="leadingMargin" id="fkd-tg-EXh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="3EN-tQ-Efp">
+                        <barButtonItem key="backBarButtonItem" title="Wstecz" id="VFe-Xw-dlT"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="blikCodeTextField" destination="0M7-38-R1T" id="eaE-9k-ddM"/>
+                        <segue destination="kG2-6P-eG7" kind="show" identifier="TpayPaymentInnerSegue" id="MpM-Uc-yCQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JFI-Ni-DhQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-247.19999999999999" y="339.58020989505252"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="k8f-le-hRN">
+            <objects>
+                <navigationController storyboardIdentifier="NavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bnm-Pp-NZB" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cCC-Sv-A3L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8r1-0H-55N" kind="relationship" relationship="rootViewController" id="r3G-q5-LFo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eSN-VD-gSw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1001" y="340"/>
+        </scene>
+        <!--Tpay View Controller-->
+        <scene sceneID="Arq-OW-o7O">
+            <objects>
+                <viewController storyboardIdentifier="TpayViewController" automaticallyAdjustsScrollViewInsets="NO" id="kG2-6P-eG7" customClass="TpayViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="f7o-q1-uCK"/>
+                        <viewControllerLayoutGuide type="bottom" id="I17-V2-jl2"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="urj-3c-Gy0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Cv-rx-0xH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="497" y="340"/>
+        </scene>
+    </scenes>
+</document>
