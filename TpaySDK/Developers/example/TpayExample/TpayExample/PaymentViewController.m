@@ -214,7 +214,7 @@ int const kBlikCodeLength = 6;
  * Fill with own api key to run demo
  */
 - (IBAction)openDefaultBlikViewForRegisteredUser:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
     TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
     blikDefaultVC.blikTransaction = [self preapreTestTransaction];
     blikDefaultVC.key = @"apiKey";
@@ -230,7 +230,7 @@ int const kBlikCodeLength = 6;
  * Fill with own api key to run demo
  */
 - (IBAction)openDefaultBlikViewForUnregisteredUser:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
     TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
     blikDefaultVC.blikTransaction = [self preapreTestTransaction];
     blikDefaultVC.key = @"apiKey";
@@ -246,7 +246,7 @@ int const kBlikCodeLength = 6;
  * Fill with own api key to run demo
  */
 - (IBAction)openDefaultBlikViewWithoutOneClick:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
     TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
     blikDefaultVC.blikTransaction = [self preapreTestTransaction];
     blikDefaultVC.key = @"apiKey";
