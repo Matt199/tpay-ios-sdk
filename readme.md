@@ -165,7 +165,7 @@ Jeden alias BLIK może być zarejestrowany do wielu aplikacji bankowych, co powo
 Kolejnym krokiem, pozwalającym na wyświetlenie domyślnego widoku płatności, jest inicjalizacja storyboardu zawierającego kontroler widoku płatności,  następnie jego zainicjowanie oraz przekazanie odpowiednich parametrów:
 ```
 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" 
-bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
 TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
 blikDefaultVC.blikDelegate = delegate;
 blikDefaultVC.blikTransaction = transaction;
@@ -412,7 +412,7 @@ One BLIK alias can be registered to multiple banking applications, resulting in 
 The next step to display the default payment view is the initialisation of the storyboard containing the payment view controller, then its initiation and passing the appropriate parameters:
 ```
 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" 
-bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
 TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
 blikDefaultVC.blikDelegate = delegate;
 blikDefaultVC.blikTransaction = transaction;
