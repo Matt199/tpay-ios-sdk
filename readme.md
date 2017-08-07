@@ -1,3 +1,5 @@
+[English Version](https://github.com/tpay-com/IOS-SDK/blob/master/readme.md#english-version)
+
 Tpay iOS Mobile Library
 =============================
 
@@ -163,7 +165,7 @@ Jeden alias BLIK może być zarejestrowany do wielu aplikacji bankowych, co powo
 Kolejnym krokiem, pozwalającym na wyświetlenie domyślnego widoku płatności, jest inicjalizacja storyboardu zawierającego kontroler widoku płatności,  następnie jego zainicjowanie oraz przekazanie odpowiednich parametrów:
 ```
 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" 
-bundle: [NSBundle bundleWithIdentifier:@"pl.transferuj.TpaySDK"]];
+bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
 TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
 blikDefaultVC.blikDelegate = delegate;
 blikDefaultVC.blikTransaction = transaction;
@@ -263,3 +265,241 @@ Historia zmian
 Wersja 1.0 (Czerwiec 2015)
 Wersja 2.0 (Maj 2017)
 Wersja 3.0 (Lipiec 2017)
+
+### English Version
+
+### Tpay iOS Mobile Library
+
+Mobile Library prepared for iOS.
+
+Configuration
+-------------
+
+The library supports iOS 9.0 or later. In the Xcode environment, the TpaySDK.framework should be added to the project.
+Apple documentation https://developer.apple.com/library/ios/recipes/xcode_help-project_editor/Articles/AddingaLibrarytoaTarget.html
+
+- The library depends on UIKit and Foundation frameworks, which are included with TpaySDK.
+
+Formation
+---------
+
+**TpayPayment** - payment model.
+**TpayViewController** - payment view controller.
+**TpayPaymentDelegate** - delegate providing feedback on transaction status.
+
+The framework uses mReturnUrl and mReturnErrorUrl parameters to determine the status of the transaction. In case of non-completion, default values will be assigned to them.
+
+How to use
+----------
+
+Below is a possible way of implementation in a project using Storyboard.
+
+- After properly configured the project, create empty *ViewController* in *Storyboard* let's call it *PaymentViewController*.
+
+- Create a segue and name the Identifier for the controller e.g. *TpayPaymentInnerSegue*.
+
+- In the created *ViewController*, set the *Custom Class* on *TpayViewController*.
+
+- Then, in the PaymentViewController.h file, include the header:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#import <TpaySDK/TpayViewController.h>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Staying in the same file, declare the implementation of the TpayPaymentDelegate protocol in the TpayViewController (you can also do this in the internal interface).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@interface PaymentViewController : UIViewController <TpayPaymentDelegate>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Go to the implementation of *PaymentViewController.m* controller.
+
+- Create a payment in it and set the required parameters according to the documentation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+self.payment = [TpayPayment new];
+
+self.payment.mId = @"your_id";
+self.payment.mAmount = @"transaction_amount";
+self.payment.mDescription = @"transaction_description";
+self.payment.mClientEmail = @"customer_email";
+self.payment.mClientName = @"customer_name_surname";
+self.payment.md5 = @"md5_calculated";
+
+// If md5 is not calculated:
+
+self.payment.mCrc = @"crc";
+self.payment.mSecurityCode = @"your_code"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also set up a pre-generated link, and then the configuration of the payment object looks like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+self.payment.mPaymentLink = @"generated_payment_link";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- To start the payment process, create a *TpayViewController*. At the time of the call, a segue is executed, which must be called in *Storyboard* and intercepted; the payment should be transferred to the internal controller and the delegate for the events should be set.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+NSString *segueName = segue.identifier;
+if ([segueName isEqualToString: @"TpayPaymentInnerSegue"]) {
+TpayViewController *childViewController = (TpayViewController *) [segue destinationViewController];
+childViewController.payment = self.payment;
+childViewController.delegate = self;
+}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Make sure that it has been properly created beforehand.
+
+-   Methods informing about the course of the transaction should also be added
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- (void)tpayDidSucceedWithPayment:(TpayPayment *)payment
+
+- (void)tpayDidFailedWithPayment:(TpayPayment *)payment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-   If you use application state retention methods, remember to implement the appropriate methods. The TpayPayment object can be encoded and decoded using the NSCoder class.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+[coder encodeObject:self.payment forKey:kExtraPayment];
+[super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+self.payment = [coder decodeObjectForKey:kExtraPayment];
+[super decodeRestorableStateWithCoder:coder];
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### How to use the library in the project - BLIK and BLIK OneClick payments
+#### The use of default views
+
+The library allows you to quickly use BLIK and BLIK One Click payments using the default payment views.
+
+In the first step, create an object representing the BLIK transaction:
+```
+TpayBlikTransaction *transaction = [TpayBlikTransaction new];
+transaction.mApiPassword = @"api_password";
+transaction.mId = @"your_id";
+transaction.mAmount = @"transaction_amount";
+transaction.mCrc = @"crc_code";
+transaction.mSecurityCode = @"security_code";
+transaction.mDescription = @"transaction_description";
+transaction.mClientEmail = @"customer_email";
+transaction.mClientName = @"customer_name_surname";
+[transaction addBlikAlias:@"alias_blik" withLabel:@"label" 
+andKey:@"application_key"];
+```
+
+The api password (api_password parameter) is a mandatory field - see API documentation on page 2 for more details. Other parameters are described in the general documentation.
+
+Instead of providing security code and crc parameters, you can specify the md5 code parameter that can be generated according to the documentation.
+
+In the case of BLIK transactions without the ability to register an alias (ie without the ability to use One Click), adding a BLIK alias is optional. In the case of transactions for a registered alias or wanting to register an alias, you must specify at least one alias using the *addBlikAlias()* method.
+
+The *addBlikAlias()* method takes the following parameters:
+
+- alias: mandatory field, NString type
+- label: alias label, optional field, NString type
+- key: application number, optional field, NString type.
+
+For more information on individual parameters, see the API documentation on page 7.
+
+One BLIK alias can be registered to multiple banking applications, resulting in alias ambiguity - the default payment view handles this situation by displaying the corresponding selection view.
+
+The next step to display the default payment view is the initialisation of the storyboard containing the payment view controller, then its initiation and passing the appropriate parameters:
+```
+UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TpayBlikStoryboard" 
+bundle: [NSBundle bundleWithIdentifier:@"com.tpay.TpaySDK"]];
+TpayBlikTransactionViewController *blikDefaultVC = (TpayBlikTransactionViewController *)[storyboard instantiateViewControllerWithIdentifier:@"TpayBlikTransactionViewController"];
+blikDefaultVC.blikDelegate = delegate;
+blikDefaultVC.blikTransaction = transaction;
+blikDefaultVC.key = @"apiKey";
+blikDefaultVC.viewType = viewType;
+```
+
+Passed parameters:
+- blikDelegate - delegate providing API feedback
+- blikTransaction - transaction object created in step 1.
+- key - unique access string, generated in the Merchant Panel in the Settings-> API tab
+- viewType: one of the values kRegisteredAlias, kUnregisteredAlias, kOnlyBlik.
+
+The type of view that we should choose depends on the type of transaction we want to perform:
+- kOnlyBlik - shows a view allowing only BLIK transactions, without the ability to register an alias (adding an alias to the transaction object is not necessary)
+- kUnregisteredAlias - shows a view allowing BLIK transaction with the ability to express the desire to register an alias
+- kRegisteredAlias - shows a payment view for the registered alias.
+
+In addition, the type kNonUniqueAlias is also available, which is used inside a library to handle ambiguous BLIK aliases.
+
+Then, the payment view controller should be presented:
+```
+[self.navigationController pushViewController:blikDefaultVC animated:YES];
+```
+
+The last step is a class extension that will handle the API feedback for TpayBlikTransactionDelegate protocol support.
+
+Example: If you presented the payment view controller from MyViewController, the following field should be set:
+```
+blikDefaultVC.blikDelegate = self;
+```
+The MyViewController class should extend the TpayBlikTransactionDelegate protocol:
+```
+@interface MyViewController () <TpayBlikTransactionDelegate>
+```
+Implementing the MyViewController should include the following methods:
+```
+- (void) tpayDidSucceedWithBlikTransaction:(TpayBlikTransaction *)transaction 
+andResponse: (id)responseObject {
+// Correct transaction. 
+// The customer should approve the payment
+// in the bank mobile application. 
+// Wait for the notification.  
+}
+
+- (void) tpayDidFailedWithBlikTransaction:(TpayBlikTransaction *)transaction 
+andResponse: (id)responseObject {
+// An error occured. 
+// The answer is the NSDictionary class, if the error came from the API.
+// The answer is NSError class, if this is another error, 
+// e.g. no internet connection.
+// More in API documentation.
+}
+```
+
+### Self-service of BLIK and BLIK One Click payments
+The library provides methods for handling payments without using default views.
+
+Create an object representing the BLIK transaction:
+
+```
+TpayBlikTransaction *transaction = [TpayBlikTransaction new];
+transaction.mApiPassword = @"api_password";
+transaction.mId = @"your_id";
+transaction.mAmount = @"transaction_amount";
+transaction.mCrc = @"crc_code";
+transaction.mSecurityCode = @"security_code";
+transaction.mDescription = @"transaction_description";
+transaction.mClientEmail = @"customer_email";
+transaction.mClientName = @"customer_name_surname";
+transaction.mBlikCode = "6_digit_blik_code";
+[transaction addBlikAlias:@"alias_blik" withLabel:@"label" 
+andKey:@"application_key"];
+```
+
+For details see Using default views.
+
+Then, use the client allowing to send the transaction and forward the delegate who will handle the API feedback (according to the last section of the Using Default Views section):
+```
+TpayApiClient *client = [TpayApiClient new];
+client.delegate = delegate;
+[client payWithBlikTransaction:transaction withKey:@"apiKey"];
+```
+
+Details regarding API responses and error codes can be found in the API documentation on pages 6-13.
+
+History of changes
+------------------
+
+Version 1.0 (June 2015) Version 2.0 (May 2017) Version 3.0 (July 2017)
